@@ -5,8 +5,20 @@ const moves = {
     2: "scissors"
 }
 
-const computerScore = 0;
-const humanScore = 0;
+let computerScore = 0;
+let playerScore = 0;
+
+const rockBtn = document.querySelector("#rock");
+const paperBtn = document.querySelector("#paper");
+const scissorsBtn = document.querySelector("#scissors");
+
+const playerTracker = document.querySelector("#Player-Score");
+const computerTracker = document.querySelector("#Computer-Score");
+
+const displayText = document.querySelector("#winnerText");
+
+
+
 
 function getComputerChoice(){
     let choice = Math.floor(Math.random() * 3);
@@ -14,34 +26,62 @@ function getComputerChoice(){
     return moves[choice];
 }
 
-function getHumanChoice(){
-    let userInput = promt("Please pick rock, paper or scissors");
-    return userInput; 
-}
 
-function playRound(){
-    let player = getHumanChoice().toLowerCase();
+function playRound(player){
     let computer = getComputerChoice();
-
+    
+    
     if (player == computer){
-        console.log("ITS A TIE")
+        displayText.innerHTML = `It's a tie we both picked ${player}`
     } else if (player == "rock" && computer == "scissors"){
-        console.log("NICE you won")
-        humanScore +=1
+        playerScore +=1;
+        playerTracker.innerHTML = playerScore;
+        displayText.innerHTML = `You Won, You picked ${player} and I picked ${computer}`
+
     } else if (player == "scissors" && computer == "paper"){
-        console.log("NICE you won")
-        humanScore +=1
+        playerScore +=1;
+        playerTracker.innerHTML = playerScore;
+        displayText.innerHTML = `You Won, You picked ${player} and I picked ${computer}`
+
     }else if (player == "paper" && computer == "rock"){
-        console.log("NICE you won")
-        humanScore +=1
+        playerScore +=1;
+        playerTracker.innerHTML = playerScore;
+        displayText.innerHTML = `You Won, You picked ${player} and I picked ${computer}`
+
     }else{
         console.log("NOOO, YOU LOST")
-        computerScore +=1
+        computerScore+=1
+        computerTracker.innerHTML = computerScore;
+        displayText.innerHTML = `You Lost, You picked ${player} and I picked ${computer}`
+
+        
+    }
+
+    if (playerScore == 5){
+        displayText.innerHTML = `Nice, you won the series before me`
+        computerScore = 0;
+        playerScore = 0;
+        computerTracker.innerHTML = computerScore;
+        playerTracker.innerHTML = playerScore;
+
+    } else if (computerScore == 5){
+        displayText.innerHTML = `Sorry, I won the series before you`
+        computerScore = 0;
+        playerScore = 0;
+        computerTracker.innerHTML = computerScore;
+        playerTracker.innerHTML = playerScore;
+
     }
 }
 
-function playGame(){
-    for (let i = 0; i < 5; i++){
-        playGame();
-    }
-}
+
+rockBtn.addEventListener("click", ()=> {
+    playRound("rock");
+})
+
+paperBtn.addEventListener("click", ()=> {
+    playRound("paper");
+})
+scissorsBtn.addEventListener("click", ()=> {
+    playRound("scissors");
+})
